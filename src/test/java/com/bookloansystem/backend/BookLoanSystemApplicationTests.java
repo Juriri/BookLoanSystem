@@ -1,4 +1,4 @@
-package com.bookloan.bookloansystem;
+package com.bookloansystem.backend;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
