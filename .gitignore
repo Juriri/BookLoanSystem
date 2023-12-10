@@ -1,5 +1,6 @@
 HELP.md
 .gradle
+!build/libs/*
 build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
@@ -11,7 +12,7 @@ build/
 !buildspec.yml
 !.github/workflows/deploy.yml
 !gradle/wrapper/gradle-wrapper.properties
-!build/libs/*
+
 
 ### STS ###
 .apt_generated
