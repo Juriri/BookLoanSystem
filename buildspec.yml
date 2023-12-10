@@ -1,0 +1,42 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      java: corretto11
+  pre_build:
+    commands:
+      - REGION=ap-northeast-2
+      - REPOSITORY_URI=xxxxx.dkr.ecr.ap-northeast-2.amazonaws.com
+      - IMAGE_NAME=foobar
+      - IMAGE_TAG=latest
+      - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      - BUILD_TAG=${COMMIT_HASH:=latest}
+      - CONTAINER_NAME=foobar
+      - echo Logging in to Amazon ECR...
+      - aws --version
+      - aws ecr get-login-password --region $REGION | docker login -u AWS --password-stdin $REPOSITORY_URI
+  build:
+    commands:
+      - echo Building the Docker image...
+      - chmod +x gradlew
+      - ./gradlew bootBuildImage --imageName=$IMAGE_NAME
+      - docker tag $REPOSITORY_URI/$IMAGE_NAME:$IMAGE_TAG $REPOSITORY_URI/$IMAGE_NAME:$BUILD_TAG
+  post_build:
+    commands:
+      - echo Pushing the Docker images...
+      - docker push $REPOSITORY_URI/$IMAGE_NAME:$IMAGE_TAG
+      - docker push $REPOSITORY_URI/$IMAGE_NAME:$BUILD_TAG
+      - printf '[{"name":"%s","imageUri":"%s"}]' $CONTAINER_NAME $REPOSITORY_URI/$IMAGE_NAME:$BUILD_TAG > imagedefinitions.json
+      - cat imagedefinitions.json
+
+cache:
+  paths:
+    - '/root/.gradle/caches/**/*'
+    - '/root/.m2/**/*'
+    - '/root/.cache/pip/**/*'
+    - '/root/.npm/**/*'
+
+artifacts:
+  files:
+    - imagedefinitions.json
