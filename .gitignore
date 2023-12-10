@@ -11,6 +11,7 @@ build/
 !buildspec.yml
 !.github/workflows/deploy.yml
 !gradle/wrapper/gradle-wrapper.properties
+!build/libs/*.jar
 
 ### STS ###
 .apt_generated
