@@ -6,6 +6,7 @@ build/
 !**/src/test/**/build/
 *.yml
 !buildspec.yml
+!.github/workflows/deploy.yml
 *.properties
 
 ### STS ###
