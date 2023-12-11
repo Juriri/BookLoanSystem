@@ -7,9 +7,9 @@ on:
   pull_request:
     branches:
       - prod
-env:
-  S3_BUCKET_NAME: loggin-system-deploy
-  PROJECT_NAME: playground-logging
+#env:
+  #S3_BUCKET_NAME: loggin-system-deploy
+  #PROJECT_NAME: playground-logging
 
 jobs:
   build:
@@ -19,10 +19,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Set up JDK 17
+      - name: Set up JDK 11
         uses: actions/setup-java@v3
         with:
-          java-version: 17
+          java-version: 11
           ##distribution: java 제공사 지정
           distribution: zulu
 
