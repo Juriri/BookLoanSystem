@@ -15,7 +15,6 @@ import java.util.Optional;
 import static com.bookloansystem.backend.common.response.BaseResponseStatus.*;
 
 
-@Slf4j
 @Service
 public class UserService {
     @Autowired

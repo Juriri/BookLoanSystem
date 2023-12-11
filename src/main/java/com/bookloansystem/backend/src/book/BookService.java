@@ -26,7 +26,6 @@ import static com.bookloansystem.backend.common.response.BaseResponseStatus.*;
 import static com.bookloansystem.backend.common.utils.ValidationRegex.isRegexBook;
 import static com.bookloansystem.backend.common.utils.ValidationRegex.isValidDate;
 
-@Slf4j
 @Service
 public class BookService {
     @Autowired
@@ -93,12 +92,10 @@ public class BookService {
     @Transactional
     public String registerBook(PostBookReq postBookReq) {
         try {
-            log.info("postBookReq = {}", postBookReq.toString());
             // book 객체 존재 확인
             Optional<Book> existbook = bookMapperRepository.findBookByCategoryAndTitleAndAuthorAndPublisher
                     (postBookReq.getBookCategory(), postBookReq.getBookTitle(), postBookReq.getAuthor(), postBookReq.getPublisher());
 
-            log.info("existbook = {}", existbook);
             if (existbook.isPresent()) {
                 throw new BaseException(POST_BOOK_EXISTS);
             } else {

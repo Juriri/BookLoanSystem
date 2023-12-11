@@ -21,8 +21,6 @@ import java.util.List;
 import static com.bookloansystem.backend.common.response.BaseResponseStatus.*;
 import static com.bookloansystem.backend.common.utils.ValidationRegex.*;
 
-
-@Slf4j
 @RequiredArgsConstructor
 @RestController
 public class BookController {
