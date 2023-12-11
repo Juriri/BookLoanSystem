@@ -4,15 +4,13 @@ import com.bookloansystem.backend.common.exceptions.BaseException;
 import static com.bookloansystem.backend.common.response.BaseResponseStatus.*;
 
 import com.bookloansystem.backend.src.book.model.Book;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
+@ToString
 @Getter
 @Setter
 @NoArgsConstructor

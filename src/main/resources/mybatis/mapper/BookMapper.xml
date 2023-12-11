@@ -69,12 +69,15 @@
         SELECT * FROM Book;
     </select>
 
-    <!-- 모든 도서 목록 호출 -->
+    <!-- 도서 목록 호출 -->
     <select id="findBookById"  parameterType="String" resultMap="bookResultMap" resultType="com.bookloansystem.backend.src.book.model.Book">
         SELECT * FROM Book WHERE book_id = #{bookId}
     </select>
 
-
+    <select id="findBookByCategoryAndTitleAndAuthorAndPublisher"  parameterType="String" resultMap="bookResultMap" resultType="com.bookloansystem.backend.src.book.model.Book">
+        SELECT * FROM Book WHERE book_category = #{bookCategory} And book_title = #{bookTitle} And author = #{author}
+        And publisher = #{publisher}
+    </select>
     <!-- 도서 대출 등록 -->
     <insert id="bookloanInsert" parameterType="com.bookloansystem.backend.src.book.model.BookLoanHistory">
         INSERT INTO Book_Loan_History (username, book_id, loan_date, return_date, status, book_title)
@@ -82,7 +85,16 @@
     </insert>
 
     <!-- 도서 대출 목록 -->
-    <select id="bookloanList" parameterType="String" resultMap="bookloanResultMap">
+    <select id="findbookloanList" parameterType="String" resultMap="bookloanResultMap">
         SELECT * FROM Book_Loan_History WHERE book_id = #{bookId}
     </select>
+
+    <!-- 도서 대출 목록 -->
+    <select id="findbookloan" parameterType="String" resultMap="bookloanResultMap">
+        SELECT * FROM Book_Loan_History WHERE username = #{username} and book_id = #{bookId}
+    </select>
+
+    <delete id="bookloanDelete" parameterType="com.bookloansystem.backend.src.book.model.BookLoanHistory">
+        DELETE FROM Book_Loan_History WHERE username = #{username} AND book_id = #{bookId}
+    </delete>
 </mapper>

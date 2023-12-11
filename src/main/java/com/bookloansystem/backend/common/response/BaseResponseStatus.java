@@ -34,10 +34,12 @@ public enum BaseResponseStatus {
 
     POST_USERS_EXISTS_USERID(false,HttpStatus.BAD_REQUEST.value(),"중복된 ID입니다."),
     POST_USERS_EXISTS_EMAIL(false,HttpStatus.BAD_REQUEST.value(),"중복된 이메일입니다."),
-
+    POST_BOOK_LOAN_EXISTS(false,HttpStatus.BAD_REQUEST.value(),"이미 대출한 도서입니다."),
+    POST_BOOK_EXISTS(false,HttpStatus.BAD_REQUEST.value(),"이미 등록된 도서입니다."),
     BOOK_INVALID_ID(false,HttpStatus.BAD_REQUEST.value(),"해당 도서 ID가 존재하지않습니다."),
+    BOOK_LOAN_NOT_EXISTS(false,HttpStatus.BAD_REQUEST.value(),"해당 도서 대출 이력이 존재하지않습니다."),
     BOOK_LESS_QUANTITY(false,HttpStatus.BAD_REQUEST.value(),"도서가 모두 대출중입니다."),
-    BOOK_INVALID_CATEGORY(false,HttpStatus.BAD_REQUEST.value(),"잘못된 카테고리입니다."),
+    BOOK_INVALID_CATEGORY(false,HttpStatus.BAD_REQUEST.value(),"잘못된 카테고리입니다.(인문/공학/에세이/예술)"),
     BOOK_INVALID_TITLE(false,HttpStatus.BAD_REQUEST.value(),"제목 입력을 다시 확인해주세요."),
     BOOK_INVALID_AUTHOR(false,HttpStatus.BAD_REQUEST.value(),"저자 입력을 다시 확인해주세요."),
     BOOK_INVALID_PUBLISHER(false,HttpStatus.BAD_REQUEST.value(),"출판사 입력을 다시 확인해주세요."),
