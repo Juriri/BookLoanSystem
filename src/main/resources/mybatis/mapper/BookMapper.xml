@@ -65,16 +65,16 @@
     </select>
 
     <!-- 모든 도서 목록 호출 -->
-    <select id="findAllBooks"  resultMap="bookResultMap" resultType="com.bookloansystem.backend.src.book.model.Book">
+    <select id="findAllBooks"  resultMap="bookResultMap">
         SELECT * FROM Book;
     </select>
 
     <!-- 도서 목록 호출 -->
-    <select id="findBookById"  parameterType="String" resultMap="bookResultMap" resultType="com.bookloansystem.backend.src.book.model.Book">
+    <select id="findBookById"  parameterType="String" resultMap="bookResultMap">
         SELECT * FROM Book WHERE book_id = #{bookId}
     </select>
 
-    <select id="findBookByCategoryAndTitleAndAuthorAndPublisher"  parameterType="String" resultMap="bookResultMap" resultType="com.bookloansystem.backend.src.book.model.Book">
+    <select id="findBookByCategoryAndTitleAndAuthorAndPublisher"  parameterType="String" resultMap="bookResultMap">
         SELECT * FROM Book WHERE book_category = #{bookCategory} And book_title = #{bookTitle} And author = #{author}
         And publisher = #{publisher}
     </select>
