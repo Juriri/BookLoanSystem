@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - prod
+  pull_request:
+    branches:
+      - prod
 env:
   S3_BUCKET_NAME: loggin-system-deploy
   PROJECT_NAME: playground-logging
@@ -11,6 +14,7 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -39,6 +43,12 @@ jobs:
         run: echo "CurrentTime=${{steps.current-time.outputs.formattedTime}}"
 
       ### AWS S3 jar 전송 ###
+      - name: Checkout repo
+        uses: actions/checkout@v3
+        with:
+            token: ${{ secrets.GITHUB_TOKEN }}
+            submodules: true
+
       - name: Make zip file
         run: zip -r ./$GITHUB_SHA.zip .
         shell: bash
