@@ -4,9 +4,6 @@ on:
   push:
     branches:
       - prod
-  pull_request:
-    branches:
-      - prod
 #env:
   #S3_BUCKET_NAME: loggin-system-deploy
   #PROJECT_NAME: playground-logging
