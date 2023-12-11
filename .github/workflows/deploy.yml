@@ -3,7 +3,7 @@ name: Test Deploy
 on:
   push:
     branches:
-      - prod
+      - dev
 env:
   S3_BUCKET_NAME: loggin-system-deploy
   PROJECT_NAME: playground-logging
