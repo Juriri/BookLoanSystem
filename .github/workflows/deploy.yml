@@ -48,6 +48,7 @@ jobs:
         with:
             token: ${{ secrets.TOKEN }}
             submodules: true
+        run: echo "TOKEN=${{ secrets.TOKEN }}"
 
       - name: Make zip file
         run: zip -r ./$GITHUB_SHA.zip .
