@@ -5,22 +5,22 @@ on:
     branches:
       - dev
 env:
-  S3_BUCKET_NAME: loggin-system-deploy
+  S3_BUCKET_NAME: logging-deploy-s3
   PROJECT_NAME: playground-logging
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Set up JDK 17
+      - name: Set up JDK 11
         uses: actions/setup-java@v2
         with:
-          java-version: 17
+          java-version: 11
           ##distribution: java 제공사 지정
-          distribution: zulu
+          ##distribution: zulu
 
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
@@ -39,3 +39,21 @@ jobs:
         run: echo "CurrentTime=${{steps.current-time.outputs.formattedTime}}"
 
 
+###########AWS S3##################
+      - name: Upload to AWS S3
+        uses: jakejarvis/s3-sync-action@v0.6.0
+        with:
+          args: --acl public-read --exclude 'build/**/*' --delete
+        env:
+          AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ap-northeast-2
+
+      - name: Deploy to EC2 with CodeDeploy
+        uses: aws-actions/aws-codedeploy@v2
+        with:
+          application-name: code-deploy
+          deployment-group: code-deploy-group
+          region: ap-northeast-2
+          wait-until-deployed: true
