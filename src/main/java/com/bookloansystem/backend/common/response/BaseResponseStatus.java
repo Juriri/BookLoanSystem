@@ -22,6 +22,8 @@ public enum BaseResponseStatus {
     USERS_EMPTY_EMAIL(false, HttpStatus.BAD_REQUEST.value(), "이메일을 입력해주세요."),
     USERS_EMPTY_NAME(false, HttpStatus.BAD_REQUEST.value(), "이름을 입력해주세요."),
 
+    BOOK_EMPTY_INFO(false, HttpStatus.BAD_REQUEST.value(), "공란을 확인해주세요."),
+
     USERS_NOT_EXISTS_USERNAME(false,HttpStatus.BAD_REQUEST.value(),"가입되지않은 회원입니다."),
     USERS_NOT_EXISTS_PASSWORD(false,HttpStatus.BAD_REQUEST.value(),"입력하신 정보가 올바르지않습니다."),
 
@@ -33,7 +35,15 @@ public enum BaseResponseStatus {
     POST_USERS_EXISTS_USERID(false,HttpStatus.BAD_REQUEST.value(),"중복된 ID입니다."),
     POST_USERS_EXISTS_EMAIL(false,HttpStatus.BAD_REQUEST.value(),"중복된 이메일입니다."),
 
-
+    BOOK_INVALID_ID(false,HttpStatus.BAD_REQUEST.value(),"해당 도서 ID가 존재하지않습니다."),
+    BOOK_LESS_QUANTITY(false,HttpStatus.BAD_REQUEST.value(),"도서가 모두 대출중입니다."),
+    BOOK_INVALID_CATEGORY(false,HttpStatus.BAD_REQUEST.value(),"잘못된 카테고리입니다."),
+    BOOK_INVALID_TITLE(false,HttpStatus.BAD_REQUEST.value(),"제목 입력을 다시 확인해주세요."),
+    BOOK_INVALID_AUTHOR(false,HttpStatus.BAD_REQUEST.value(),"저자 입력을 다시 확인해주세요."),
+    BOOK_INVALID_PUBLISHER(false,HttpStatus.BAD_REQUEST.value(),"출판사 입력을 다시 확인해주세요."),
+    BOOK_INVALID_DATE(false,HttpStatus.BAD_REQUEST.value(),"잘못된 날짜 형식입니다. (YYYY-MM-DD)"),
+    BOOK_INVALID_QUANTITY(false,HttpStatus.BAD_REQUEST.value(),"잘못된 수량입니다."),
+    BOOK_INVALID_REGEX(false,HttpStatus.BAD_REQUEST.value(),"입력 형식을 다시 확인해주세요."),
     /**
      * 500 :  Database, Server 오류
      */

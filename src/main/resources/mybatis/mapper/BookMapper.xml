@@ -2,30 +2,87 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.bookloansystem.backend.src.user.BookMapperRepository">
+<mapper namespace="com.bookloansystem.backend.src.book.BookMapperRepository">
     <resultMap id="bookResultMap" type="com.bookloansystem.backend.src.book.model.Book">
         <!-- 클래스 필드와 테이블 열 명시적 매핑 -->
         <id property="bookId" column="book_id"/>
         <result property="bookCategory" column="book_category"/>
-        <result property="password" column="password"/>
-        <result property="name" column="name"/>
-        <result property="email" column="email"/>
+        <result property="bookTitle" column="book_title"/>
+        <result property="author" column="author"/>
+        <result property="publisher" column="publisher"/>
+        <result property="publicationDate" column="publication_date"/>
         <result property="createdAt" column="created_at"/>
+        <result property="quantity" column="quantity"/>
+        <result property="bookContent" column="book_content"/>
+        <result property="bookThumbnail" column="book_thumbnail"/>
     </resultMap>
 
-    <!-- 회원 가입 -->
-    <insert id="userInsert" parameterType="com.bookloansystem.backend.src.user.model.User">
-        INSERT INTO User (user_id, username, password, name, email, created_at)
-        VALUES (#{userId}, #{username}, #{password}, #{name}, #{email}, NOW())
+    <resultMap id="bookloanResultMap" type="com.bookloansystem.backend.src.book.model.BookLoanHistory">
+        <!-- 클래스 필드와 테이블 열 명시적 매핑 -->
+        <result property="username" column="username"/>
+        <result property="bookId" column="book_id"/>
+        <result property="loanDate" column="loan_date"/>
+        <result property="returnDate" column="return_date"/>
+        <result property="status" column="status"/>
+        <result property="bookTitle" column="book_title"/>
+    </resultMap>
+
+    <!-- 도서 등록 -->
+    <insert id="bookInsert" parameterType="com.bookloansystem.backend.src.book.model.Book">
+        INSERT INTO Book (book_id, book_category, book_title, author, publisher, publication_date, created_at,quantity, book_content, book_thumbnail)
+        VALUES (#{bookId}, #{bookCategory}, #{bookTitle}, #{author}, #{publisher}, #{publicationDate}, NOW()
+        , #{quantity}, #{bookContent}, #{bookThumbnail})
     </insert>
 
-    <!-- 이메일 회원 조회 -->
-    <select id="findUserByEmail" resultMap="userResultMap" parameterType="String">
-        SELECT * FROM User WHERE email = #{email}
+    <update id="bookSave" parameterType="com.bookloansystem.backend.src.book.model.Book">
+        UPDATE Book SET
+        book_category = #{bookCategory},
+        book_title = #{bookTitle},
+        author = #{author},
+        publisher = #{publisher},
+        publication_date = #{publicationDate},
+        created_at = #{createdAt},
+        quantity = #{quantity},
+        book_content = #{bookContent},
+        book_thumbnail = #{bookThumbnail}
+        WHERE
+            book_id = #{bookId}
+    </update>
+
+    <!-- 도서 카테고리 목록 호출 -->
+    <select id="findCategory" resultType="String">
+        SELECT category_name FROM Book_Category
     </select>
 
-    <!-- 회원 아이디로 회원 조회 -->
-    <select id="findUserByUsername" resultMap="userResultMap" parameterType="String">
-        SELECT * FROM User WHERE username = #{username}
+    <!-- 도서 제목으로 책 찾기 -->
+    <select id="findBookByTitle" resultMap="bookResultMap" parameterType="String">
+        SELECT * FROM Book WHERE book_title = #{bookTitle}
+    </select>
+
+    <!-- 도서 저자로 책 찾기 -->
+    <select id="findBookByauthor" resultMap="bookResultMap" parameterType="String">
+        SELECT * FROM Book WHERE author = #{author}
+    </select>
+
+    <!-- 모든 도서 목록 호출 -->
+    <select id="findAllBooks"  resultMap="bookResultMap" resultType="com.bookloansystem.backend.src.book.model.Book">
+        SELECT * FROM Book;
+    </select>
+
+    <!-- 모든 도서 목록 호출 -->
+    <select id="findBookById"  parameterType="String" resultMap="bookResultMap" resultType="com.bookloansystem.backend.src.book.model.Book">
+        SELECT * FROM Book WHERE book_id = #{bookId}
+    </select>
+
+
+    <!-- 도서 대출 등록 -->
+    <insert id="bookloanInsert" parameterType="com.bookloansystem.backend.src.book.model.BookLoanHistory">
+        INSERT INTO Book_Loan_History (username, book_id, loan_date, return_date, status, book_title)
+        VALUES (#{username}, #{bookId}, #{loanDate}, #{returnDate}, #{status}, #{bookTitle})
+    </insert>
+
+    <!-- 도서 대출 목록 -->
+    <select id="bookloanList" parameterType="String" resultMap="bookloanResultMap">
+        SELECT * FROM Book_Loan_History WHERE book_id = #{bookId}
     </select>
 </mapper>

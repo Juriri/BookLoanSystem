@@ -1,5 +1,6 @@
 package com.bookloansystem.backend.src.user.model;
 
+import com.bookloansystem.backend.common.utils.UUIDGenerator;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
@@ -20,6 +21,7 @@ public class User {
 
     @Builder
     public User(String username, String password, String name, String email) {
+        this.userId = UUIDGenerator.generateUUID();
         this.username = username;
         this.password = password;
         this.name = name;

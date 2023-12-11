@@ -8,10 +8,9 @@ public class Constant {
     }
 
 
-    //Default State:: ACTIVE
+    //Default State:: ON_LOAN
     public enum State {
-        /*Default State:: ACTIVE*/
-        ACTIVE
+        ON_LOAN, OVERDUE, RETURNED
     }
 
 }
