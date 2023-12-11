@@ -44,7 +44,7 @@ public class ValidationRegex {
     // 최소, 최대 글자 유효성 검증 (한글, 영어, 숫자, 특수문자 포함)
     public static boolean isRegexBook(String target, int min, int max) {
         // 정규표현식 패턴: 한글, 영어, 숫자, 특수문자 포함
-        String regexPattern = "^[가-힣a-zA-Z0-9!@#$%^&*(),.?\":{}|<>]*$";
+        String regexPattern = "^[가-힣a-zA-Z0-9!@#$%^&*(),.?\":{}|<>\\s]*$";
 
         // 최소 글자 수, 최대 글자 수 확인
         if (target.length() < min || target.length() > max) {
@@ -59,14 +59,40 @@ public class ValidationRegex {
     }
 
     // Date 형식 유효성 검증
-    public static boolean isValidDate (Date date) throws ParseException {
+    public static boolean isValidDate (String dateString) throws ParseException {
         // 원하는 날짜 형식에 맞게 포맷을 지정
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         // Strict 모드를 사용하여 더 엄격한 검증을 수행
         sdf.setLenient(false);
-        // 파싱을 시도하고 예외가 발생하지 않으면 유효한 날짜 형식
-        sdf.parse(sdf.format(date));
-        return true;
+
+        try {
+            // 파싱을 시도하고 예외가 발생하지 않으면 유효한 날짜 형식
+            Date date = Date.valueOf(dateString);
+            String formattedDate = sdf.format(date);
+
+            Date parsedDate = Date.valueOf(formattedDate);
+
+            if (!date.equals(parsedDate)) {
+                return false;
+            }
+
+            int year = getYearFromSqlDate(date);
+            int currentYear = getCurrentYear();
+
+            return year >= 1900 && year <= currentYear;
+        } catch (IllegalArgumentException e) {
+            return false;
+        }
+    }
+
+    private static int getYearFromSqlDate(Date date) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
+        return Integer.parseInt(sdf.format(date));
+    }
+
+    private static int getCurrentYear() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
+        return Integer.parseInt(sdf.format(new Date(System.currentTimeMillis())));
     }
 }
 

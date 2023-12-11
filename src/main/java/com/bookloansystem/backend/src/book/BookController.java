@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.ApiOperation;
 
+import java.sql.Date;
 import java.text.ParseException;
 import java.util.List;
 
@@ -30,9 +31,10 @@ public class BookController {
     @Autowired
     private UserService userService;
 
+
     /**
      * 도서 등록 API
-     * [POST] /registerBook
+     * [GET] /registerBook
      * @param bookCategory 도서 카테고리 (FK)
      * @param bookTitle 도서 제목
      * @param author 도서 저자
@@ -43,8 +45,8 @@ public class BookController {
      * @param bookThumbnail 도서 썸네일
      * @return BaseResponse<String>
      */
-
-    @ResponseBody
+/*
+   @ResponseBody
     @ApiOperation(value = "도서 등록")
     @GetMapping("/registerBook")
     public BaseResponse<String> createBook(
@@ -59,6 +61,25 @@ public class BookController {
 
         PostBookReq postBookReq = new PostBookReq(bookCategory, bookTitle, author, publisher, publicationDate,
                 quantity, bookContent, bookThumbnail);
+        log.info("postBookReq : {}", postBookReq.toString());
+        if (validatePostBookReq(postBookReq)!= null) {
+            return validatePostBookReq(postBookReq);
+        } else {
+            return new BaseResponse<>(bookService.registerBook(postBookReq));
+        }
+    }
+  */
+
+    /**
+     * 도서 등록 API
+     * [POST] /registerBook
+     * @param postBookReq 도서 등록 모델
+     * @return BaseResponse<String>
+     */
+    @ResponseBody
+    @ApiOperation(value = "도서 등록")
+    @PostMapping("/registerBook")
+    public BaseResponse<String> createBook(@RequestBody PostBookReq postBookReq) throws ParseException {
         if (validatePostBookReq(postBookReq)!= null) {
             return validatePostBookReq(postBookReq);
         } else {
@@ -66,12 +87,11 @@ public class BookController {
         }
     }
 
-
     //도서 등록 정보 공란과 유효성 검증
     private BaseResponse<String> validatePostBookReq(PostBookReq postBookReq) throws ParseException {
 
         String bookCategory = postBookReq.getBookCategory();
-        String bookTitile = postBookReq.getBookTitle();
+        String bookTitle = postBookReq.getBookTitle();
         String author = postBookReq.getAuthor();
         String publisher = postBookReq.getPublisher();
         String publicationDate = postBookReq.getPublicationDate();
@@ -80,17 +100,21 @@ public class BookController {
         String bookThumbnail = postBookReq.getBookThumbnail();*/
 
         // String 공란일 때 예외 처리
-        if (bookCategory.isEmpty() || bookTitile.isEmpty() || author.isEmpty()||
+        if (bookCategory.isEmpty() || bookTitle.isEmpty() || author.isEmpty()||
         publisher.isEmpty() || publicationDate.isEmpty()) {
             throw new BaseException(BOOK_EMPTY_INFO);
         }
 
         // 최소 최대 글자 확인
-        if (!isRegexBook(bookCategory, 1, 20) || !isRegexBook(bookTitile,1,100) || !isRegexBook(author,1,20)
+        if (!isRegexBook(bookCategory, 1, 20) || !isRegexBook(bookTitle,1,100) || !isRegexBook(author,1,20)
         || !isRegexBook(publisher,1,20)) {
-            throw new BaseException(BOOK_INVALID_REGEX);
+            throw new BaseException(USERS_EMPTY_EMAIL);
         }
 
+        // 날짜 형식 확인
+        if (!isValidDate(publicationDate)) {
+            throw new BaseException(BOOK_INVALID_DATE);
+        }
         // 숫자가 아닐 때 예외처리
         if(quantity <= 0 || !NumberUtils.isDigits(String.valueOf(quantity))){
             throw new BaseException(BOOK_INVALID_QUANTITY);
@@ -106,20 +130,11 @@ public class BookController {
 
     /**
      * 도서 정보 수정 API
-     * [POST] /editBook
-     * @param bookId 도서 고유 아이디
-     * @param bookCategory 도서 카테고리 (FK)
-     * @param bookTitle 도서 제목
-     * @param author 도서 저자
-     * @param publisher 출판사
-     * @param publicationDate 도서 출판일 (yyyy-MM-dd)
-     * @param quantity 도서 수량
-     * @param bookContent 도서 소개 내용
-     * @param bookThumbnail 도서 썸네일
+     * [GET] /editBook
      * @return BaseResponse<String>
      */
 
-    @ResponseBody
+/*    @ResponseBody
     @ApiOperation(value = "도서 수정")
     @GetMapping("/editBook")
     public BaseResponse<String> editBook(
@@ -138,9 +153,14 @@ public class BookController {
         PostBookReq postBookReq = new PostBookReq(bookCategory, bookTitle, author, publisher, publicationDate,
                 parsedQuantity, bookContent, bookThumbnail);
         return new BaseResponse<>(bookService.editBook(bookId, postBookReq));
+    }*/
+
+    @ResponseBody
+    @ApiOperation(value = "도서 수정")
+    @PostMapping("/editBook")
+    public BaseResponse<String> editBook(@RequestParam String bookId, @RequestBody PostBookReq postBookReq) throws ParseException {
+        return new BaseResponse<>(bookService.editBook(bookId, postBookReq));
     }
-
-
     /**
      * 도서 목록 호출 API
      * [GET] /findAllBooks
@@ -180,7 +200,7 @@ public class BookController {
 
     @ResponseBody
     @ApiOperation(value = "도서 대출 이력 확인")
-    @PostMapping("/loanFind")
+    @GetMapping("/loanFind")
     public BaseResponse<List<PostBookLoanRes>> findLoan(@RequestParam String bookId){
         return new BaseResponse<>(bookService.findLoan(bookId));
     }
@@ -198,7 +218,7 @@ public class BookController {
     @PostMapping("/loanReturn")
     public BaseResponse<String> returnLoan(@RequestBody PostLoginReq postLoginReq, @RequestParam String bookId) {
         if (userService.loginUser(postLoginReq)) {
-            return new BaseResponse<>(bookService.createLoan(postLoginReq.getUsername(), bookId));
+            return new BaseResponse<>(bookService.deleteLoan(postLoginReq.getUsername(), bookId));
         } else {
             throw new BaseException(USERS_NOT_EXISTS_PASSWORD);
         }
