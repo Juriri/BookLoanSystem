@@ -1,6 +1,6 @@
 
 ### 도서 대출 관리 시스템
-![img.png](src/main/resources/static/icon/main.png)
+![img.png](img.png)![img.png](src/main/resources/static/icon/main.png)
 ### REST API
 REST API를 처리하는 SpringBoot 프로젝트   
 
@@ -21,43 +21,40 @@ REST API를 처리하는 SpringBoot 프로젝트
 api-server-spring-boot
   > .github
     > workflows
-      | deploy.yml
+      | deploy.yml //GitHub Actions에서 실행되는 CI/CD 워크플로의 설정 파일
   > build
     > libs
-      | BookLoanSystem-0.0.1-SNAPSHOT.jar
+      | BookLoanSystem-0.0.1-SNAPSHOT.jar //빌드된 실행 가능한 JAR 파일
   > gradle
   > script
-    | deploy.sh
-    
+    | deploy.sh //배포 스크립트입니다. 이 스크립트는 프로세스를 중지하고, JAR 파일을 배포
   > src.main.java.com.bookloansystem.backend
     > common
         > config
-          | SwaggerConfig.java
-        > exceptions
+          | SwaggerConfig.java //Swagger 설정을 정의
+        > exceptions //사용자 정의 예외 클래스
           | BaseException.java
           | ExceptionAdvice.java
-        > response
+        > response //API 응답의 기본 구조를 정의
           | BaseResponse.java
           | BaseResponseStatus.java
         > util
-          | UUIDGenerator.java
-          | ValidationRegex.java
-        | Constant.java
-
+          | UUIDGenerator.java //UUID를 생성하는 유틸리티 클래스
+          | ValidationRegex.java //유효성 검증 정규 표현식 패턴을 정의한 클래스
+        | Constant.java //상수 클래스
     > src
-        > book
+        > book //book 패키지
           > dto
-            | PostBookLoanRes.java
-            | PostBookReq.java
+            | PostBookLoanRes.java //도서 대출 이력 조회 응답 모델
+            | PostBookReq.java //도서 등록, 도서 수정 모델
           > model
             | BookController.java
             | BookService.java
-            | BookMapperRepository.java (interface)
-          
-        > user
+            | BookMapperRepository.java (interface)       
+        > user //user 패키지
           > dto
-            | PostLoginReq.java
-            | PostUserReq.java
+            | PostLoginReq.java //로그인 요청 모델
+            | PostUserReq.java //회원가입 요청 모델
           > model
             | UserController.java
             | UserService.java
@@ -65,12 +62,12 @@ api-server-spring-boot
         | BookLoanSystemApplication // SpringBootApplication 서버 시작 지점
     > resources
       > mybatis
-        > mapper
+        > mapper //SQL 쿼리를 정의
           | BookMapper.xml
           | UserMapper.xml
     | application.yml // Database 연동을 위한 설정 값 세팅 및 Port 정의 파일
   | gitignore
-  | appspec.yml
+  | appspec.yml //AWS CodeDeploy의 애플리케이션 스펙 파일
   | build.gradle
 ```
 ## ERD
