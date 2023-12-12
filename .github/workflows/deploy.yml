@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - dev
-
 env:
   PROJECT_NAME: BookLoanSystem
   BUCKET_NAME: logging-deploy-s3
