@@ -2,8 +2,7 @@
 ### 도서 대출 관리 시스템
 
 ## Github actions + AWS codeDeploy
-![img.png](img.png)
-
+![img_1.png](img_1.png)
 
 ### REST API
 REST API를 처리하는 SpringBoot 프로젝트   
