@@ -14,9 +14,10 @@ build/resources
 
 ### github actions ###
 !buildspec.yml
+!appspec.yml
 !.github/workflows/deploy.yml
 !gradle/wrapper/gradle-wrapper.properties
-
+!scripts
 
 ### STS ###
 .apt_generated
