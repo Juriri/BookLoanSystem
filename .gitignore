@@ -15,6 +15,7 @@ build/resources
 ### github actions ###
 !buildspec.yml
 !appspec.yml
+!application.yml
 !.github/workflows/deploy.yml
 !gradle/wrapper/gradle-wrapper.properties
 !scripts
