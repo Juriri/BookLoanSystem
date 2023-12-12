@@ -49,6 +49,8 @@ dependencies {
     // MySQL DB (v8)
     runtimeOnly ('mysql:mysql-connector-java')
     implementation 'com.mysql:mysql-connector-j:8.2.0'
+    implementation 'mysql:mysql-connector-java:8.0.28'
+
 
 
     // Oracle DB (ojdbc 8)
