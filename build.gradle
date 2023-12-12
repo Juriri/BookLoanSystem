@@ -45,6 +45,9 @@ dependencies {
     // JDBC
     implementation ('org.springframework.boot:spring-boot-starter-jdbc')
 
+    // JPA
+    implementation ('org.springframework.boot:spring-boot-starter-data-jpa')
+
     // MySQL DB (v8)
     runtimeOnly ('mysql:mysql-connector-java')
 
