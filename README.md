@@ -1,6 +1,6 @@
 
 ### 도서 대출 관리 시스템
-![img.png](img.png)
+![img.png](src/main/resources/static/Images/img.png)
 
 ### REST API
 REST API를 처리하는 SpringBoot 프로젝트   
@@ -72,7 +72,7 @@ api-server-spring-boot
   | build.gradle
 ```
 ## ERD
-![img_1.png](img_1.png)
+![img_1.png](src/main/resources/static/Images/img_1.png)
 
 
 
