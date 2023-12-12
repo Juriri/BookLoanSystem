@@ -20,3 +20,6 @@ fi
 
 echo "> $JAR_PATH 배포"
 nohup java -jar $JAR_PATH > /dev/null 2> /dev/null < /dev/null &
+
+echo "> Start Server"
+nohup java -jar -Dspring.profiles.active=dev -Dserver.port=9000 $JAR_PATH > log.out 2>&1 &
